@@ -6,4 +6,17 @@
     <RootNamespace>Forsir.IctProject.BusinessLayer</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Facades\BookFacade.cs~RF12d71be1.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Collection" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
+  </ItemGroup>
+
 </Project>
