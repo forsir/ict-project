@@ -2,14 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Forsir.IctProject.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace Web
@@ -23,9 +28,24 @@ namespace Web
 
 		public IConfiguration Configuration { get; }
 
+		//	[Obsolete]
+		//public static readonly LoggerFactory MyLoggerFactory
+		//	= new LoggerFactory(new[] { new ConsoleLoggerProvider((IOptionsMonitor<ConsoleLoggerOptions>)new ConsoleLoggerOptions()) });
+
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+
+			services.AddDbContext<OctProjectContext>(options =>
+					options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+#if DEBUG
+					//	.UseLoggerFactory(MyLoggerFactory)
+#endif
+					);
+
+			//services.AddDefaultIdentity<IdentityUser>()
+			//	//.AddDefaultUI(UIFramework.Bootstrap4)
+			//	.AddEntityFrameworkStores<OctProjectContext>();
 
 			services.AddControllers();
 			services.AddSwaggerGen(c =>

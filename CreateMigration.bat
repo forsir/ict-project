@@ -1,1 +1,1 @@
-dotnet ef migrations add %1
+dotnet ef migrations add %1 -p .\DataLayer -s .\Web\
