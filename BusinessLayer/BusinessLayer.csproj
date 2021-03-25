@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Forsir.IctProject.BusinessLayer</AssemblyName>
+    <RootNamespace>Forsir.IctProject.BusinessLayer</RootNamespace>
+  </PropertyGroup>
+
+</Project>
