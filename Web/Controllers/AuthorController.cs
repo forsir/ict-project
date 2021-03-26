@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 namespace Web.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
 	public class AuthorController : ControllerBase
 	{
 		private readonly ILogger<AuthorController> logger;
@@ -23,13 +22,15 @@ namespace Web.Controllers
 		}
 
 		[HttpGet]
+		[Route("Authors")]
 		public async Task<IEnumerable<AuthorsList>> Index()
 		{
 			List<AuthorsList> result = await authorFacade.GetListAsync();
 			return result.ToArray();
 		}
 
-		// GET: Actors/Details/5
+		[HttpGet]
+		[Route("Author/{id}")]
 		public async Task<AuthorDetail> Details(int? id)
 		{
 			if (id == null)
