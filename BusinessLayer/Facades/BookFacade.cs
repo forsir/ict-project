@@ -13,16 +13,18 @@ namespace Forsir.IctProject.BusinessLayer.Facades
 	public class BookFacade : IBookFacade
 	{
 		private readonly IBookRepository bookRepository;
+		private readonly IMapper mapper;
 
-		public BookFacade(IBookRepository bookRepository)
+		public BookFacade(IBookRepository bookRepository, IMapper mapper)
 		{
 			this.bookRepository = bookRepository;
+			this.mapper = mapper;
 		}
 
 		public async Task<List<BooksList>> GetListAsync()
 		{
 			List<Book> list = await bookRepository.GetListAsync(false).ConfigureAwait(false);
-			return Mapper.Map<List<AuthorsList>>(list);
+			return mapper.Map<List<BooksList>>(list);
 		}
 	}
 }

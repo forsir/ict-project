@@ -7,6 +7,7 @@ using AutoMapper;
 using Forsir.IctProject.BusinessLayer.Models;
 using Forsir.IctProject.DataLayer.Repositories;
 using Forsir.IctProject.Repository;
+using Forsir.IctProject.Repository.Data.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Forsir.IctProject.BusinessLayer.Facades
@@ -15,44 +16,37 @@ namespace Forsir.IctProject.BusinessLayer.Facades
 	{
 		private readonly IAuthorRepository authorRepository;
 		private readonly OctProjectContext context;
+		private readonly IMapper mapper;
 
-		public AuthorFacade(IAuthorRepository authorRepository, OctProjectContext context)
+		public AuthorFacade(IAuthorRepository authorRepository, OctProjectContext context, IMapper mapper)
 		{
 			this.authorRepository = authorRepository;
 			this.context = context;
+			this.mapper = mapper;
 		}
 
 		public async Task<List<AuthorsList>> GetListAsync()
 		{
-			List<Repository.Data.Model.Author> list = await context.Authors.Include(a => a.Books).OrderBy(a => a.Name).ToListAsync();
-			return Mapper.Map<List<AuthorsList>>(list);
+			List<Author> list = await context.Authors.Include(a => a.Books).OrderBy(a => a.Name).ToListAsync();
+			return mapper.Map<List<AuthorsList>>(list);
 		}
 
-		//public async Task<AuthorDetail> GetAuthor(int id)
-		//{
-		//	var actor = await actorRepository.GetEntityAsync(id, false, i => i.Include(a => a.Parts).ThenInclude(p => p.Block).ThenInclude(p => p.Stage).ThenInclude(p => p.Play));
-		//	var actorGrouped = actor.Parts.GroupBy(p => p.Block)
-		//		.Select(g => new { Id = g.Key.Id, Name = g.Key.Name, Order = g.Key.Order, OriginalStage = g.Key.Stage, Parts = Mapper.Map<List<ActorPartModel>>(g) })
-		//		.GroupBy(b => b.OriginalStage)
-		//		.Select(g => new { Key = Mapper.Map<StageListModel>(g.Key), List = g.ToList() })
-		//		.Select(g => new ActorStageModel { Id = g.Key.Id, Play = g.Key.Play, PlayName = g.Key.PlayName, Order = g.Key.Order, StillPlaying = g.Key.StillPlaying, Blocks = Mapper.Map<List<ActorBlockModel>>(g.List) })
-		//		.ToList();
+		public async Task<AuthorDetail> GetAuthor(int id)
+		{
+			Author author = await authorRepository.GetAuthorAsync(id);
+			return mapper.Map<AuthorDetail>(author);
+		}
 
-		//	var actorDisplayModel = Mapper.Map<ActorDisplayModel>(actor);
-		//	actorDisplayModel.Stages = actorGrouped;
+		public async Task SaveAsync(AuthorEdit authorEdit)
+		{
+			Author author = authorEdit.Id == null ? new Author() : await authorRepository.GetEntityAsync(authorEdit.Id.Value, true);
+			mapper.Map<AuthorEdit, Author>(authorEdit, author);
 
-		//	return actorDisplayModel;
-		//}
-
-		//public async Task SaveEditModelAsync(ActorEditModel actorEditModel)
-		//{
-		//	Actor actor = actorEditModel.Id == null ? new Actor() : await actorRepository.GetEntityAsync(actorEditModel.Id.Value, true);
-		//	Mapper.Map<ActorEditModel, Actor>(actorEditModel, actor);
-
-		//	if (actorEditModel.Id == null)
-		//	{
-		//		context.Actors.Add(actor);
-		//	}
-		//}
+			if (authorEdit.Id == null)
+			{
+				context.Authors.Add(author);
+			}
+			await authorRepository.SaveChangesAsync();
+		}
 	}
 }

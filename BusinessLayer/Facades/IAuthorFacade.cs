@@ -7,5 +7,9 @@ namespace Forsir.IctProject.BusinessLayer.Facades
 	public interface IAuthorFacade
 	{
 		Task<List<AuthorsList>> GetListAsync();
+
+		Task<AuthorDetail> GetAuthor(int id);
+
+		Task SaveAsync(AuthorEdit authorEdit);
 	}
 }
