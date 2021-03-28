@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Forsir.IctProject.DataLayer.Migrations
 {
-    [DbContext(typeof(OctProjectContext))]
+    [DbContext(typeof(IctProjectContext))]
     partial class OctProjectContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

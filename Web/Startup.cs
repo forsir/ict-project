@@ -40,7 +40,7 @@ namespace Web
 		public void ConfigureServices(IServiceCollection services)
 		{
 
-			services.AddDbContext<OctProjectContext>(options =>
+			services.AddDbContext<IctProjectContext>(options =>
 					options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
 #if DEBUG
 						.UseLoggerFactory(MyLoggerFactory)
@@ -48,7 +48,7 @@ namespace Web
 					);
 
 			services.AddIdentity<IdentityUser, IdentityRole>()
-				.AddEntityFrameworkStores<OctProjectContext>();
+				.AddEntityFrameworkStores<IctProjectContext>();
 
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			  .AddJwtBearer(cfg => cfg.TokenValidationParameters = new TokenValidationParameters());
@@ -68,7 +68,7 @@ namespace Web
 			{
 				IServiceProvider services = serviceScope.ServiceProvider;
 
-				OctProjectContext context = services.GetRequiredService<OctProjectContext>();
+				IctProjectContext context = services.GetRequiredService<IctProjectContext>();
 				IEnumerable<string> migrations = context.Database.GetPendingMigrations();
 				if (migrations.Any())
 				{

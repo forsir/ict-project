@@ -10,17 +10,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Forsir.IctProject.Repository
 {
-	public class OctProjectContext : IdentityDbContext
+	public class IctProjectContext : IdentityDbContext
 	{
 		public DbSet<Book> Books { get; set; }
 
 		public DbSet<Author> Authors { get; set; }
 
-		public OctProjectContext()
+		public IctProjectContext()
 		{
 		}
 
-		public OctProjectContext(DbContextOptions<OctProjectContext> options) : base(options)
+		public IctProjectContext(DbContextOptions<IctProjectContext> options) : base(options)
 		{
 		}
 

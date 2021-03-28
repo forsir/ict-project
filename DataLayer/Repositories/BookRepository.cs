@@ -11,7 +11,7 @@ namespace Forsir.IctProject.DataLayer.Repositories
 {
 	public class BookRepository : Repository<Book>, IBookRepository
 	{
-		public BookRepository(OctProjectContext context) : base(context)
+		public BookRepository(IctProjectContext context) : base(context)
 		{
 		}
 	}

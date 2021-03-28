@@ -18,9 +18,9 @@ namespace Forsir.IctProject.DataLayer.Repositories
 	public class Repository<T> : IRepository<T>
 			where T : class, IDataModel
 	{
-		protected readonly OctProjectContext context;
+		protected readonly IctProjectContext context;
 
-		public Repository(OctProjectContext context)
+		public Repository(IctProjectContext context)
 		{
 			this.context = context;
 		}

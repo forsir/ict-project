@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Forsir.IctProject.DataLayer.Migrations
 {
-    [DbContext(typeof(OctProjectContext))]
+    [DbContext(typeof(IctProjectContext))]
     [Migration("20210325212608_Initial")]
     partial class Initial
     {

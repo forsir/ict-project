@@ -11,7 +11,7 @@ namespace Forsir.IctProject.DataLayer.Repositories
 {
 	public class AuthorRepository : Repository<Author>, IAuthorRepository
 	{
-		public AuthorRepository(OctProjectContext context) : base(context)
+		public AuthorRepository(IctProjectContext context) : base(context)
 		{
 		}
 
