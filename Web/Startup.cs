@@ -4,25 +4,21 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using AutoMapper;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using Forsir.IctProject.BusinessLayer.Facades;
 using Forsir.IctProject.BusinessLayer.Mapping;
 using Forsir.IctProject.DataLayer.Repositories;
 using Forsir.IctProject.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace Web
@@ -51,9 +47,11 @@ namespace Web
 #endif
 					);
 
-			//services.AddDefaultIdentity<IdentityUser>()
-			//	//.AddDefaultUI(UIFramework.Bootstrap4)
-			//	.AddEntityFrameworkStores<OctProjectContext>();
+			services.AddIdentity<IdentityUser, IdentityRole>()
+				.AddEntityFrameworkStores<OctProjectContext>();
+
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			  .AddJwtBearer(cfg => cfg.TokenValidationParameters = new TokenValidationParameters());
 
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
@@ -65,6 +63,20 @@ namespace Web
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			// database initialization
+			using (IServiceScope serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+			{
+				IServiceProvider services = serviceScope.ServiceProvider;
+
+				OctProjectContext context = services.GetRequiredService<OctProjectContext>();
+				IEnumerable<string> migrations = context.Database.GetPendingMigrations();
+				if (migrations.Any())
+				{
+					context.Database.Migrate();
+				}
+				DbInitializer.Initialize(context);
+			}
+
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();

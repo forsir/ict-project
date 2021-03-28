@@ -47,5 +47,24 @@ namespace Web.Controllers
 
 			return authorDetail;
 		}
+
+		[HttpGet]
+		[Route("Author/Create/")]
+		public async Task Create(AuthorEdit authorEdit)
+		{
+			if (authorEdit == null)
+			{
+				throw new Exception("Not found");
+			}
+
+			await authorFacade.SaveAsync(authorEdit);
+		}
+
+		[HttpGet]
+		[Route("Author/Delete/{id}")]
+		public async Task Delete(int id)
+		{
+			await authorFacade.DeleteAuthor(id);
+		}
 	}
 }

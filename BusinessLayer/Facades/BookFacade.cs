@@ -27,6 +27,12 @@ namespace Forsir.IctProject.BusinessLayer.Facades
 			return mapper.Map<List<BooksList>>(list);
 		}
 
+		public async Task<BookDetail> GetBookAsync(int id)
+		{
+			Book book = await bookRepository.GetEntityAsync(id, false);
+			return mapper.Map<BookDetail>(book);
+		}
+
 		public async Task DeleteBook(int id)
 		{
 			Book book = await bookRepository.GetEntityAsync(id, false);

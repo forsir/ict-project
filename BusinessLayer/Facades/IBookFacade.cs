@@ -11,5 +11,7 @@ namespace Forsir.IctProject.BusinessLayer.Facades
 		Task DeleteBook(int id);
 
 		Task SaveAsync(BookEdit bookEdit);
+
+		Task<BookDetail> GetBookAsync(int id);
 	}
 }
