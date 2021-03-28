@@ -7,5 +7,9 @@ namespace Forsir.IctProject.BusinessLayer.Facades
 	public interface IBookFacade
 	{
 		Task<List<BooksList>> GetListAsync();
+
+		Task DeleteBook(int id);
+
+		Task SaveAsync(BookEdit bookEdit);
 	}
 }

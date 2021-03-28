@@ -11,5 +11,7 @@ namespace Forsir.IctProject.BusinessLayer.Facades
 		Task<AuthorDetail> GetAuthor(int id);
 
 		Task SaveAsync(AuthorEdit authorEdit);
+
+		Task DeleteAuthor(int id);
 	}
 }
