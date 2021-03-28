@@ -8,7 +8,7 @@ namespace Forsir.IctProject.DataLayer.Repositories
 {
 	public interface IAuthorRepository : IRepository<Author>
 	{
-		Task<List<Author>> GetAllActorsAsync(Func<IQueryable<Author>, IQueryable<Author>> func);
+		Task<List<Author>> GetAllAuthorsAsync(Func<IQueryable<Author>, IQueryable<Author>> func);
 
 		Task<Author> GetAuthorAsync(int authorId);
 	}

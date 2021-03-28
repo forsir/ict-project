@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Forsir.IctProject.Repository;
 using Forsir.IctProject.Repository.Data.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Forsir.IctProject.DataLayer.Repositories
 {
-	public class BookRepository : Repository<Book>
+	public class BookRepository : Repository<Book>, IBookRepository
 	{
 		public BookRepository(OctProjectContext context) : base(context)
 		{

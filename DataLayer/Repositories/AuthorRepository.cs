@@ -15,7 +15,7 @@ namespace Forsir.IctProject.DataLayer.Repositories
 		{
 		}
 
-		public async Task<List<Author>> GetAllActorsAsync(Func<IQueryable<Author>, IQueryable<Author>> func)
+		public async Task<List<Author>> GetAllAuthorsAsync(Func<IQueryable<Author>, IQueryable<Author>> func)
 		{
 			if (func != null)
 			{
