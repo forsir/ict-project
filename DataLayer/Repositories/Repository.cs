@@ -27,9 +27,9 @@ namespace Forsir.IctProject.DataLayer.Repositories
 
 		public async Task<List<T>> GetListAsync(
 				bool tracking,
-			Expression<Func<T, bool>> whereExpression = null,
-			Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
-			Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+			Expression<Func<T, bool>>? whereExpression = null,
+			Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+			Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
 		{
 			IQueryable<T> query = context.Set<T>();
 			if (!tracking)
@@ -62,7 +62,7 @@ namespace Forsir.IctProject.DataLayer.Repositories
 			return model => model.Id == id;
 		}
 
-		public async Task<T> GetEntityAsync(Expression<Func<T, bool>> whereExpression, bool tracking, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+		public async Task<T> GetEntityAsync(Expression<Func<T, bool>> whereExpression, bool tracking, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
 		{
 			IQueryable<T> query = context.Set<T>();
 			if (!tracking)
@@ -83,7 +83,7 @@ namespace Forsir.IctProject.DataLayer.Repositories
 			return await query.FirstOrDefaultAsync(whereExpression).ConfigureAwait(false);
 		}
 
-		public async Task<T> GetEntityAsync(int id, bool tracking, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+		public async Task<T> GetEntityAsync(int id, bool tracking, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
 		{
 			return await GetEntityAsync(EntityWhereExpression(id), tracking, include);
 		}

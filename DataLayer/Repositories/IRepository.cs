@@ -15,15 +15,15 @@ namespace Forsir.IctProject.DataLayer.Repositories
 
 		void Delete(T entity);
 
-		Task<T> GetEntityAsync(Expression<Func<T, bool>> whereExpression, bool tracking, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null);
+		Task<T> GetEntityAsync(Expression<Func<T, bool>> whereExpression, bool tracking, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
 
-		Task<T> GetEntityAsync(int id, bool tracking, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null);
+		Task<T> GetEntityAsync(int id, bool tracking, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
 
 		Task<List<T>> GetListAsync(
 			   bool tracking,
-			Expression<Func<T, bool>> whereExpression = null,
-			Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
-			Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
+			Expression<Func<T, bool>>? whereExpression = null,
+			Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+			Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null);
 
 		Task SaveChangesAsync();
 

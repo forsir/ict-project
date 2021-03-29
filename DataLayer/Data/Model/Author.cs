@@ -14,7 +14,7 @@ namespace Forsir.IctProject.Repository.Data.Model
 
 		[MaxLength(200)]
 		[Required]
-		public string Name { get; set; }
+		public string Name { get; set; } = String.Empty;
 
 		public List<Book> Books { get; set; } = new List<Book>();
 	}

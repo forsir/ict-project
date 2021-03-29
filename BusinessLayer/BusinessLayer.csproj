@@ -1,22 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Forsir.IctProject.BusinessLayer</AssemblyName>
-    <RootNamespace>Forsir.IctProject.BusinessLayer</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<AssemblyName>Forsir.IctProject.BusinessLayer</AssemblyName>
+		<RootNamespace>Forsir.IctProject.BusinessLayer</RootNamespace>
+		<LangVersion>9.0</LangVersion>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Services\BookFacade.cs~RF12d71be1.TMP" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Services\BookFacade.cs~RF12d71be1.TMP" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Collection" Version="7.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
+		<PackageReference Include="AutoMapper.Collection" Version="7.0.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DataLayer\DataLayer.csproj" />
+	</ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ namespace Forsir.IctProject.Web.Infrastructure
 
 	public class JwtRefreshTokenCache : IHostedService, IDisposable
 	{
-		private Timer _timer;
+		private Timer? _timer;
 		private readonly IJwtAuthManager _jwtAuthManager;
 
 		public JwtRefreshTokenCache(IJwtAuthManager jwtAuthManager)
@@ -24,7 +24,7 @@ namespace Forsir.IctProject.Web.Infrastructure
 			return Task.CompletedTask;
 		}
 
-		private void DoWork(object state)
+		private void DoWork(object? state)
 		{
 			_jwtAuthManager.RemoveExpiredRefreshTokens(DateTime.Now);
 		}

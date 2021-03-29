@@ -8,6 +8,6 @@ namespace Forsir.IctProject.BusinessLayer.Models
 {
 	public class BooksList
 	{
-		public string Name { get; set; }
+		public string Name { get; set; } = String.Empty;
 	}
 }

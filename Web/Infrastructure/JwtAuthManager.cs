@@ -73,16 +73,16 @@ namespace Forsir.IctProject.Web.Infrastructure
 			};
 		}
 
-		public JwtAuthResult Refresh(string refreshToken, string accessToken, DateTime now)
+		public JwtAuthResult Refresh(string refreshToken, string? accessToken, DateTime now)
 		{
-			(ClaimsPrincipal principal, JwtSecurityToken jwtToken) = DecodeJwtToken(accessToken);
+			(ClaimsPrincipal principal, JwtSecurityToken? jwtToken) = DecodeJwtToken(accessToken);
 			if (jwtToken == null || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature))
 			{
 				throw new SecurityTokenException("Invalid token");
 			}
 
-			string userName = principal.Identity?.Name;
-			if (!_usersRefreshTokens.TryGetValue(refreshToken, out RefreshToken existingRefreshToken))
+			string userName = principal.Identity?.Name ?? String.Empty;
+			if (!_usersRefreshTokens.TryGetValue(refreshToken, out RefreshToken? existingRefreshToken))
 			{
 				throw new SecurityTokenException("Invalid token");
 			}
@@ -94,7 +94,7 @@ namespace Forsir.IctProject.Web.Infrastructure
 			return GenerateTokens(userName, principal.Claims.ToArray(), now); // need to recover the original claims
 		}
 
-		public (ClaimsPrincipal, JwtSecurityToken) DecodeJwtToken(string token)
+		public (ClaimsPrincipal, JwtSecurityToken?) DecodeJwtToken(string? token)
 		{
 			if (String.IsNullOrWhiteSpace(token))
 			{
@@ -129,20 +129,19 @@ namespace Forsir.IctProject.Web.Infrastructure
 	public class JwtAuthResult
 	{
 		[JsonPropertyName("accessToken")]
-		public string AccessToken { get; set; }
+		public string AccessToken { get; set; } = String.Empty;
 
 		[JsonPropertyName("refreshToken")]
-		public RefreshToken RefreshToken { get; set; }
+		public RefreshToken RefreshToken { get; set; } = new RefreshToken();
 	}
 
 	public class RefreshToken
 	{
 		[JsonPropertyName("username")]
-		public string UserName { get; set; }    // can be used for usage tracking
-												// can optionally include other metadata, such as user agent, ip address, device name, and so on
+		public string UserName { get; set; } = String.Empty;
 
 		[JsonPropertyName("tokenString")]
-		public string TokenString { get; set; }
+		public string TokenString { get; set; } = String.Empty;
 
 		[JsonPropertyName("expireAt")]
 		public DateTime ExpireAt { get; set; }

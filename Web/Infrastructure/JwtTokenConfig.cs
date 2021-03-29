@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Forsir.IctProject.Web.Infrastructure
 {
@@ -7,13 +8,13 @@ namespace Forsir.IctProject.Web.Infrastructure
 	public class JwtTokenConfig
 	{
 		[JsonPropertyName("secret")]
-		public string Secret { get; set; }
+		public string Secret { get; set; } = String.Empty;
 
 		[JsonPropertyName("issuer")]
-		public string Issuer { get; set; }
+		public string Issuer { get; set; } = String.Empty;
 
 		[JsonPropertyName("audience")]
-		public string Audience { get; set; }
+		public string Audience { get; set; } = String.Empty;
 
 		[JsonPropertyName("accessTokenExpiration")]
 		public int AccessTokenExpiration { get; set; }

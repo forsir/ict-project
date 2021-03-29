@@ -60,7 +60,7 @@ namespace Forsir.IctProject.Web.Controllers
 			// optionally "revoke" JWT token on the server side --> add the current token to a block-list
 			// https://github.com/auth0/node-jsonwebtoken/issues/375
 
-			string userName = User.Identity?.Name;
+			string userName = User.Identity?.Name ?? String.Empty;
 			_jwtAuthManager.RemoveRefreshTokenByUserName(userName);
 			_logger.LogInformation($"User [{userName}] logged out the system.");
 			return Ok();
@@ -72,7 +72,7 @@ namespace Forsir.IctProject.Web.Controllers
 		{
 			try
 			{
-				string userName = User.Identity?.Name;
+				string userName = User.Identity?.Name ?? String.Empty;
 				_logger.LogInformation($"User [{userName}] is trying to refresh JWT token.");
 
 				if (String.IsNullOrWhiteSpace(request.RefreshToken))
@@ -80,7 +80,7 @@ namespace Forsir.IctProject.Web.Controllers
 					return Unauthorized();
 				}
 
-				string accessToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
+				string? accessToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
 				JwtAuthResult jwtResult = _jwtAuthManager.Refresh(request.RefreshToken, accessToken, DateTime.Now);
 				_logger.LogInformation($"User [{userName}] has refreshed JWT token.");
 				return Ok(new LoginResult
@@ -101,31 +101,31 @@ namespace Forsir.IctProject.Web.Controllers
 	{
 		[Required]
 		[JsonPropertyName("username")]
-		public string UserName { get; set; }
+		public string UserName { get; set; } = String.Empty;
 
 		[Required]
 		[JsonPropertyName("password")]
-		public string Password { get; set; }
+		public string Password { get; set; } = String.Empty;
 	}
 
 	public class LoginResult
 	{
 		[JsonPropertyName("username")]
-		public string UserName { get; set; }
+		public string UserName { get; set; } = String.Empty;
 
 		[JsonPropertyName("originalUserName")]
-		public string OriginalUserName { get; set; }
+		public string OriginalUserName { get; set; } = String.Empty;
 
 		[JsonPropertyName("accessToken")]
-		public string AccessToken { get; set; }
+		public string AccessToken { get; set; } = String.Empty;
 
 		[JsonPropertyName("refreshToken")]
-		public string RefreshToken { get; set; }
+		public string RefreshToken { get; set; } = String.Empty;
 	}
 
 	public class RefreshTokenRequest
 	{
 		[JsonPropertyName("refreshToken")]
-		public string RefreshToken { get; set; }
+		public string RefreshToken { get; set; } = String.Empty;
 	}
 }

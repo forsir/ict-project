@@ -8,6 +8,6 @@ namespace Forsir.IctProject.BusinessLayer.Models
 {
 	public class UserDetail
 	{
-		public string Email { get; set; }
+		public string Email { get; set; } = String.Empty;
 	}
 }

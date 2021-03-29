@@ -33,8 +33,6 @@ namespace Web
 
 		public IConfiguration Configuration { get; }
 
-		public ILifetimeScope AutofacContainer { get; private set; }
-
 		public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 
 		// This method gets called by the runtime. Use this method to add services to the container.
@@ -120,11 +118,11 @@ namespace Web
 			//mapperConfiguration.AssertConfigurationIsValid();
 
 			containerBuilder.RegisterAssemblyTypes(typeof(IService).Assembly)
-				.Where(t => (t.Name != null) && t.Namespace.EndsWith(nameof(Forsir.IctProject.BusinessLayer.Services)))
+				.Where(t => (t.Name != null) && (t.Namespace?.EndsWith(nameof(Forsir.IctProject.BusinessLayer.Services)) == true))
 				.AsImplementedInterfaces();
 
 			containerBuilder.RegisterAssemblyTypes(typeof(Repository<>).Assembly)
-				.Where(t => (t.Name != null) && (t.Namespace.EndsWith(nameof(Forsir.IctProject.DataLayer.Repositories))))
+				.Where(t => (t.Name != null) && (t.Namespace?.EndsWith(nameof(Forsir.IctProject.DataLayer.Repositories)) == null))
 				.AsImplementedInterfaces();
 		}
 	}
