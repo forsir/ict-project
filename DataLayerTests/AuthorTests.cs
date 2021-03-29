@@ -15,8 +15,9 @@ namespace DataLayerTests
 		{
 			// arange
 			string authorName = "name";
-			AuthorTestFixture fixture = new AuthorTestFixture(ictProjectContext)
+			AuthorTestFixture fixture = new AuthorTestFixture(ictProjectContext!)
 				.CreateAndAddAuthor(authorName);
+			fixture.SaveChanges();
 
 			// act
 			List<Author> authors = fixture.AuthorRepository.GetListAsync(false).Result;
@@ -29,7 +30,7 @@ namespace DataLayerTests
 		private class AuthorTestFixture
 		{
 
-			public Author Author { get; set; }
+			public Author? Author { get; set; }
 
 			public IAuthorRepository AuthorRepository { get; set; }
 
@@ -50,6 +51,10 @@ namespace DataLayerTests
 				return this;
 			}
 
+			public void SaveChanges()
+			{
+				_ictProjectContext.SaveChanges();
+			}
 		}
 	}
 }

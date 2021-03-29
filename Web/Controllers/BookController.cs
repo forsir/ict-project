@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Forsir.IctProject.Web.Controllers
 {
+	[ApiController]
 	public class BookController
 	{
 		private readonly IBookService bookService;
@@ -47,7 +48,7 @@ namespace Forsir.IctProject.Web.Controllers
 
 		[HttpGet]
 		[Route("Book/Create/")]
-		public async Task Create(BookEdit bookEdit)
+		public async Task Create([FromBody] BookEdit bookEdit)
 		{
 			if (bookEdit == null)
 			{

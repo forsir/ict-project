@@ -12,7 +12,7 @@ namespace DataLayerTests
 	[TestClass]
 	public abstract class TestBase
 	{
-		public IctProjectContext ictProjectContext;
+		public IctProjectContext? ictProjectContext;
 
 		[TestInitialize]
 		public void Initialize()
@@ -31,7 +31,7 @@ namespace DataLayerTests
 		[TestCleanup]
 		public void Cleanup()
 		{
-			ictProjectContext.Dispose();
+			ictProjectContext?.Dispose();
 		}
 	}
 }

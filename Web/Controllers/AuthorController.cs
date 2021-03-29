@@ -48,9 +48,8 @@ namespace Forsir.IctProject.Web.Controllers
 			return authorDetail;
 		}
 
-		[HttpGet]
 		[Route("Author/Create/")]
-		public async Task Create(AuthorEdit authorEdit)
+		public async Task Create([FromBody] AuthorEdit authorEdit)
 		{
 			if (authorEdit == null)
 			{
