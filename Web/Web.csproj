@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>Forsir.IctProject.Web</AssemblyName>
+    <RootNamespace>Forsir.IctProject.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

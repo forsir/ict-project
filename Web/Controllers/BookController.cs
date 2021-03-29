@@ -7,7 +7,7 @@ using Forsir.IctProject.BusinessLayer.Models;
 using Forsir.IctProject.BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Controllers
+namespace Forsir.IctProject.Web.Controllers
 {
 	public class BookController
 	{

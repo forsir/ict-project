@@ -7,7 +7,7 @@ using Forsir.IctProject.BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Web.Controllers
+namespace Forsir.IctProject.Web.Controllers
 {
 	[ApiController]
 	public class AuthorController : ControllerBase

@@ -4,7 +4,7 @@ using Forsir.IctProject.BusinessLayer.Models;
 
 namespace Forsir.IctProject.BusinessLayer.Services
 {
-	public interface IAuthorService
+	public interface IAuthorService : IService
 	{
 		Task<List<AuthorsList>> GetListAsync();
 
