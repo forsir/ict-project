@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Forsir.IctProject.BusinessLayer.Facades;
 using Forsir.IctProject.BusinessLayer.Models;
+using Forsir.IctProject.BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,19 +13,19 @@ namespace Web.Controllers
 	public class AuthorController : ControllerBase
 	{
 		private readonly ILogger<AuthorController> logger;
-		private readonly IAuthorFacade authorFacade;
+		private readonly IAuthorService authorService;
 
-		public AuthorController(ILogger<AuthorController> logger, IAuthorFacade authorFacade)
+		public AuthorController(ILogger<AuthorController> logger, IAuthorService authorService)
 		{
 			this.logger = logger;
-			this.authorFacade = authorFacade;
+			this.authorService = authorService;
 		}
 
 		[HttpGet]
 		[Route("Authors")]
 		public async Task<IEnumerable<AuthorsList>> Index()
 		{
-			List<AuthorsList> result = await authorFacade.GetListAsync();
+			List<AuthorsList> result = await authorService.GetListAsync();
 			return result.ToArray();
 		}
 
@@ -38,7 +38,7 @@ namespace Web.Controllers
 				throw new Exception("Not found");
 			}
 
-			AuthorDetail authorDetail = await authorFacade.GetAuthor(id.Value);
+			AuthorDetail authorDetail = await authorService.GetAuthor(id.Value);
 
 			if (authorDetail == null)
 			{
@@ -57,14 +57,14 @@ namespace Web.Controllers
 				throw new Exception("Not found");
 			}
 
-			await authorFacade.SaveAsync(authorEdit);
+			await authorService.SaveAsync(authorEdit);
 		}
 
 		[HttpGet]
 		[Route("Author/Delete/{id}")]
 		public async Task Delete(int id)
 		{
-			await authorFacade.DeleteAuthor(id);
+			await authorService.DeleteAuthor(id);
 		}
 	}
 }

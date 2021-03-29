@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
-using Forsir.IctProject.BusinessLayer.Facades;
 using Forsir.IctProject.BusinessLayer.Mapping;
+using Forsir.IctProject.BusinessLayer.Services;
 using Forsir.IctProject.DataLayer.Repositories;
 using Forsir.IctProject.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -50,8 +51,20 @@ namespace Web
 			services.AddIdentity<IdentityUser, IdentityRole>()
 				.AddEntityFrameworkStores<IctProjectContext>();
 
+			string secret = Configuration.GetSection("JwtConfig").GetSection("secret").Value;
+			byte[] key = Encoding.ASCII.GetBytes(secret);
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-			  .AddJwtBearer(cfg => cfg.TokenValidationParameters = new TokenValidationParameters());
+				.AddJwtBearer(x =>
+				{
+					x.TokenValidationParameters = new TokenValidationParameters
+					{
+						IssuerSigningKey = new SymmetricSecurityKey(key),
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidIssuer = "localhost",
+						ValidAudience = "localhost"
+					};
+				});
 
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
@@ -88,6 +101,7 @@ namespace Web
 
 			app.UseRouting();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
@@ -105,8 +119,8 @@ namespace Web
 			//MapperConfiguration mapperConfiguration = container.Resolve<MapperConfiguration>();
 			//mapperConfiguration.AssertConfigurationIsValid();
 
-			containerBuilder.RegisterAssemblyTypes(typeof(IFacade).Assembly)
-				.Where(t => (t.Name != null) && t.Namespace.EndsWith(nameof(Forsir.IctProject.BusinessLayer.Facades)))
+			containerBuilder.RegisterAssemblyTypes(typeof(IService).Assembly)
+				.Where(t => (t.Name != null) && t.Namespace.EndsWith(nameof(Forsir.IctProject.BusinessLayer.Services)))
 				.AsImplementedInterfaces();
 
 			containerBuilder.RegisterAssemblyTypes(typeof(Repository<>).Assembly)

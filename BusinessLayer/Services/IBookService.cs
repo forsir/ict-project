@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Forsir.IctProject.BusinessLayer.Models;
 
-namespace Forsir.IctProject.BusinessLayer.Facades
+namespace Forsir.IctProject.BusinessLayer.Services
 {
-	public interface IBookFacade
+	public interface IBookService
 	{
 		Task<List<BooksList>> GetListAsync();
 

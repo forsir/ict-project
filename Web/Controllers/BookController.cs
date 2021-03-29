@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Forsir.IctProject.BusinessLayer.Facades;
 using Forsir.IctProject.BusinessLayer.Models;
+using Forsir.IctProject.BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
 {
 	public class BookController
 	{
-		private readonly IBookFacade bookFacade;
+		private readonly IBookService bookService;
 
-		public BookController(IBookFacade bookFacade)
+		public BookController(IBookService bookService)
 		{
-			this.bookFacade = bookFacade;
+			this.bookService = bookService;
 		}
 
 		[HttpGet]
 		[Route("Books")]
 		public async Task<IEnumerable<BooksList>> Index()
 		{
-			List<BooksList> result = await bookFacade.GetListAsync();
+			List<BooksList> result = await bookService.GetListAsync();
 			return result.ToArray();
 		}
 
@@ -35,7 +35,7 @@ namespace Web.Controllers
 				throw new Exception("Not found");
 			}
 
-			BookDetail bookDetail = await bookFacade.GetBookAsync(id.Value);
+			BookDetail bookDetail = await bookService.GetBookAsync(id.Value);
 
 			if (bookDetail == null)
 			{
@@ -54,14 +54,14 @@ namespace Web.Controllers
 				throw new Exception("Not found");
 			}
 
-			await bookFacade.SaveAsync(bookEdit);
+			await bookService.SaveAsync(bookEdit);
 		}
 
 		[HttpGet]
 		[Route("Book/Delete/{id}")]
 		public async Task Delete(int id)
 		{
-			await bookFacade.DeleteBook(id);
+			await bookService.DeleteBook(id);
 		}
 	}
 }

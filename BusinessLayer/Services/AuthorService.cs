@@ -9,14 +9,14 @@ using Forsir.IctProject.DataLayer.Repositories;
 using Forsir.IctProject.Repository.Data.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Forsir.IctProject.BusinessLayer.Facades
+namespace Forsir.IctProject.BusinessLayer.Services
 {
-	public class AuthorFacade : IAuthorFacade
+	public class AuthorService : IAuthorService
 	{
 		private readonly IAuthorRepository authorRepository;
 		private readonly IMapper mapper;
 
-		public AuthorFacade(IAuthorRepository authorRepository, IMapper mapper)
+		public AuthorService(IAuthorRepository authorRepository, IMapper mapper)
 		{
 			this.authorRepository = authorRepository;
 			this.mapper = mapper;
@@ -44,7 +44,7 @@ namespace Forsir.IctProject.BusinessLayer.Facades
 		public async Task SaveAsync(AuthorEdit authorEdit)
 		{
 			Author author = authorEdit.Id == null ? new Author() : await authorRepository.GetEntityAsync(authorEdit.Id.Value, true);
-			mapper.Map<AuthorEdit, Author>(authorEdit, author);
+			mapper.Map(authorEdit, author);
 
 			if (authorEdit.Id == null)
 			{

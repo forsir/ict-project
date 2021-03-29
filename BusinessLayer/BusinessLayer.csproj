@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Facades\BookFacade.cs~RF12d71be1.TMP" />
+    <None Remove="Services\BookFacade.cs~RF12d71be1.TMP" />
   </ItemGroup>
 
   <ItemGroup>

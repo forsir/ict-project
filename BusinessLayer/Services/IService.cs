@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forsir.IctProject.BusinessLayer.Facades
+namespace Forsir.IctProject.BusinessLayer.Services
 {
-	public interface IFacade
+	public interface IService
 	{
 	}
 }

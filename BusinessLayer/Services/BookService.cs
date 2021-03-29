@@ -8,14 +8,14 @@ using Forsir.IctProject.BusinessLayer.Models;
 using Forsir.IctProject.DataLayer.Repositories;
 using Forsir.IctProject.Repository.Data.Model;
 
-namespace Forsir.IctProject.BusinessLayer.Facades
+namespace Forsir.IctProject.BusinessLayer.Services
 {
-	public class BookFacade : IBookFacade
+	public class BookService : IBookService
 	{
 		private readonly IBookRepository bookRepository;
 		private readonly IMapper mapper;
 
-		public BookFacade(IBookRepository bookRepository, IMapper mapper)
+		public BookService(IBookRepository bookRepository, IMapper mapper)
 		{
 			this.bookRepository = bookRepository;
 			this.mapper = mapper;
@@ -43,7 +43,7 @@ namespace Forsir.IctProject.BusinessLayer.Facades
 		public async Task SaveAsync(BookEdit bookEdit)
 		{
 			Book book = bookEdit.Id == null ? new Book() : await bookRepository.GetEntityAsync(bookEdit.Id.Value, true);
-			mapper.Map<BookEdit, Book>(bookEdit, book);
+			mapper.Map(bookEdit, book);
 
 			if (bookEdit.Id == null)
 			{
