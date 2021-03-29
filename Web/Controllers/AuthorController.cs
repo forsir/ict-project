@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Forsir.IctProject.BusinessLayer.Models;
 using Forsir.IctProject.BusinessLayer.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Forsir.IctProject.Web.Controllers
 {
+	[Authorize]
 	[ApiController]
 	public class AuthorController : ControllerBase
 	{
@@ -48,6 +50,7 @@ namespace Forsir.IctProject.Web.Controllers
 			return authorDetail;
 		}
 
+		[HttpPost]
 		[Route("Author/Create/")]
 		public async Task Create([FromBody] AuthorEdit authorEdit)
 		{

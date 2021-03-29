@@ -46,7 +46,7 @@ namespace Forsir.IctProject.Web.Controllers
 			return bookDetail;
 		}
 
-		[HttpGet]
+		[HttpPost]
 		[Route("Book/Create/")]
 		public async Task Create([FromBody] BookEdit bookEdit)
 		{

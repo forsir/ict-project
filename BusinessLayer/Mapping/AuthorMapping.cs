@@ -18,7 +18,8 @@ namespace Forsir.IctProject.BusinessLayer.Mapping
 			CreateMap<Author, AuthorDetail>();
 
 			CreateMap<AuthorEdit, Author>()
-				.ForMember(a => a.Id, m => m.Ignore());
+				.ForMember(a => a.Id, m => m.Ignore())
+				.ForMember(a => a.Books, m => m.Ignore());
 		}
 	}
 }

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using AutoMapper;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using Forsir.IctProject.BusinessLayer.Mapping;
 using Forsir.IctProject.BusinessLayer.Services;
@@ -113,16 +114,12 @@ namespace Web
 			// init AutoMapper
 			containerBuilder.RegisterAutoMapper(typeof(AuthorMapping).Assembly);
 
-			//IContainer container = containerBuilder.Build();
-			//MapperConfiguration mapperConfiguration = container.Resolve<MapperConfiguration>();
-			//mapperConfiguration.AssertConfigurationIsValid();
-
 			containerBuilder.RegisterAssemblyTypes(typeof(IService).Assembly)
 				.Where(t => (t.Name != null) && (t.Namespace?.EndsWith(nameof(Forsir.IctProject.BusinessLayer.Services)) == true))
 				.AsImplementedInterfaces();
 
 			containerBuilder.RegisterAssemblyTypes(typeof(Repository<>).Assembly)
-				.Where(t => (t.Name != null) && (t.Namespace?.EndsWith(nameof(Forsir.IctProject.DataLayer.Repositories)) == null))
+				.Where(t => (t.Name != null) && (t.Namespace?.EndsWith(nameof(Forsir.IctProject.DataLayer.Repositories)) == true))
 				.AsImplementedInterfaces();
 		}
 	}
