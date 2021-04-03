@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,17 @@ namespace Forsir.IctProject.BusinessLayer.Models
 	{
 		public int? Id { get; set; }
 
-		public string Name { get; set; } = String.Empty;
+		[Required]
+		[MaxLength(200)]
+		public string Name { get; set; }
 
-		public List<int> BookIds { get; set; } = new List<int>();
+		[Required]
+		public List<int> BookIds { get; set; }
+
+		public AuthorEdit(string name, List<int> bookIds)
+		{
+			Name = name;
+			BookIds = bookIds;
+		}
 	}
 }

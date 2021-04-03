@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Forsir.IctProject.BusinessLayer.Models;
 using Forsir.IctProject.BusinessLayer.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -25,48 +27,67 @@ namespace Forsir.IctProject.Web.Controllers
 
 		[HttpGet]
 		[Route("Authors")]
-		public async Task<IEnumerable<AuthorsList>> Index()
+		public async Task<ActionResult<IEnumerable<AuthorsList>>> Index()
 		{
 			List<AuthorsList> result = await authorService.GetListAsync();
-			return result.ToArray();
+			return Ok(result.ToArray());
 		}
 
 		[HttpGet]
 		[Route("Author/{id}")]
-		public async Task<AuthorDetail> Details(int? id)
+		public async Task<ActionResult<AuthorDetail>> Details(int? id)
 		{
 			if (id == null)
 			{
-				throw new Exception("Not found");
+				return BadRequest("Object not found");
 			}
 
 			AuthorDetail authorDetail = await authorService.GetAuthor(id.Value);
 
 			if (authorDetail == null)
 			{
-				throw new Exception("Not found");
+				// Only for eample
+				return StatusCode(StatusCodes.Status400BadRequest, "Object not found");
 			}
 
-			return authorDetail;
+			return Ok(authorDetail);
 		}
 
 		[HttpPost]
 		[Route("Author/Create/")]
-		public async Task Create([FromBody] AuthorEdit authorEdit)
+		public async Task<IActionResult> Create([FromBody] AuthorEdit authorEdit)
 		{
-			if (authorEdit == null)
+			try
 			{
-				throw new Exception("Not found");
-			}
+				if ((authorEdit == null) || !ModelState.IsValid)
+				{
+					return BadRequest(ModelState.Values.SelectMany(v => v.Errors));
+				}
 
-			await authorService.SaveAsync(authorEdit);
+				await authorService.SaveAsync(authorEdit);
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, $"{nameof(AuthorController)}.{nameof(Create)} ({JsonSerializer.Serialize(authorEdit)})");
+				return BadRequest("Cannot create");
+			}
+			return Ok();
 		}
 
-		[HttpGet]
+		[HttpDelete]
 		[Route("Author/Delete/{id}")]
-		public async Task Delete(int id)
+		public async Task<IActionResult> Delete(int id)
 		{
-			await authorService.DeleteAuthor(id);
+			try
+			{
+				await authorService.DeleteAuthor(id);
+				return Ok();
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, $"{nameof(AuthorController)}.{nameof(Delete)} ({id})");
+				return BadRequest("Cannot delete");
+			}
 		}
 	}
 }
