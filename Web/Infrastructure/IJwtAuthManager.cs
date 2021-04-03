@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
+using Forsir.IctProject.Web.Infrastructure.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Forsir.IctProject.Web.Infrastructure

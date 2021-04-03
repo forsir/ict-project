@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json.Serialization;
+using Forsir.IctProject.Web.Infrastructure.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Forsir.IctProject.Web.Infrastructure
@@ -124,26 +124,5 @@ namespace Forsir.IctProject.Web.Infrastructure
 			randomNumberGenerator.GetBytes(randomNumber);
 			return Convert.ToBase64String(randomNumber);
 		}
-	}
-
-	public class JwtAuthResult
-	{
-		[JsonPropertyName("accessToken")]
-		public string AccessToken { get; set; } = String.Empty;
-
-		[JsonPropertyName("refreshToken")]
-		public RefreshToken RefreshToken { get; set; } = new RefreshToken();
-	}
-
-	public class RefreshToken
-	{
-		[JsonPropertyName("username")]
-		public string UserName { get; set; } = String.Empty;
-
-		[JsonPropertyName("tokenString")]
-		public string TokenString { get; set; } = String.Empty;
-
-		[JsonPropertyName("expireAt")]
-		public DateTime ExpireAt { get; set; }
 	}
 }

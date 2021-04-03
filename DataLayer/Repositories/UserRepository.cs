@@ -18,9 +18,9 @@ namespace Forsir.IctProject.DataLayer.Repositories
 			_context = context;
 		}
 
-		public async Task<IdentityUser> GetUserAsync(string email)
+		public async Task<IdentityUser> GetUserAsync(string name)
 		{
-			return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+			return await _context.Users.FirstOrDefaultAsync(u => u.UserName == name);
 		}
 	}
 }

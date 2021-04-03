@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Forsir.IctProject.BusinessLayer.Services;
 using Forsir.IctProject.Web.Infrastructure;
+using Forsir.IctProject.Web.Infrastructure.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -95,37 +96,5 @@ namespace Forsir.IctProject.Web.Controllers
 				return Unauthorized(e.Message); // return 401 so that the client side can redirect the user to login page
 			}
 		}
-	}
-
-	public class LoginRequest
-	{
-		[Required]
-		[JsonPropertyName("username")]
-		public string UserName { get; set; } = String.Empty;
-
-		[Required]
-		[JsonPropertyName("password")]
-		public string Password { get; set; } = String.Empty;
-	}
-
-	public class LoginResult
-	{
-		[JsonPropertyName("username")]
-		public string UserName { get; set; } = String.Empty;
-
-		[JsonPropertyName("originalUserName")]
-		public string OriginalUserName { get; set; } = String.Empty;
-
-		[JsonPropertyName("accessToken")]
-		public string AccessToken { get; set; } = String.Empty;
-
-		[JsonPropertyName("refreshToken")]
-		public string RefreshToken { get; set; } = String.Empty;
-	}
-
-	public class RefreshTokenRequest
-	{
-		[JsonPropertyName("refreshToken")]
-		public string RefreshToken { get; set; } = String.Empty;
 	}
 }

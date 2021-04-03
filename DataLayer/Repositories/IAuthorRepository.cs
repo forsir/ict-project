@@ -6,7 +6,7 @@ using Forsir.IctProject.Repository.Data.Model;
 
 namespace Forsir.IctProject.DataLayer.Repositories
 {
-	public interface IAuthorRepository : IRepository<Author>
+	public interface IAuthorRepository : IGenericRepository<Author>
 	{
 		Task<List<Author>> GetAllAuthorsAsync(Func<IQueryable<Author>, IQueryable<Author>> func);
 

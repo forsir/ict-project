@@ -7,7 +7,7 @@ using Forsir.IctProject.Repository.Data.Model;
 
 namespace Forsir.IctProject.DataLayer.Repositories
 {
-	public interface IBookRepository : IRepository<Book>
+	public interface IBookRepository : IGenericRepository<Book>
 	{
 	}
 }

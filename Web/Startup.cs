@@ -11,6 +11,7 @@ using Forsir.IctProject.BusinessLayer.Mapping;
 using Forsir.IctProject.BusinessLayer.Services;
 using Forsir.IctProject.DataLayer.Repositories;
 using Forsir.IctProject.Repository;
+using Forsir.IctProject.Web.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +37,8 @@ namespace Web
 
 		public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 
+		public JwtTokenConfig JwtTokenConfig { get; private set; } = new JwtTokenConfig();
+
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
@@ -50,7 +53,9 @@ namespace Web
 			services.AddIdentity<IdentityUser, IdentityRole>()
 				.AddEntityFrameworkStores<IctProjectContext>();
 
-			string secret = Configuration.GetSection("JwtConfig").GetSection("secret").Value;
+			JwtTokenConfig = Configuration.GetSection("JwtConfig").Get<JwtTokenConfig>();
+
+			string secret = JwtTokenConfig.Secret;
 			byte[] key = Encoding.ASCII.GetBytes(secret);
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(x =>
@@ -60,16 +65,39 @@ namespace Web
 						IssuerSigningKey = new SymmetricSecurityKey(key),
 						ValidateIssuer = true,
 						ValidateAudience = true,
-						ValidIssuer = "localhost",
-						ValidAudience = "localhost"
+						ValidIssuer = JwtTokenConfig.Issuer,
+						ValidAudience = JwtTokenConfig.Audience
 					};
 				});
 
 			services.AddControllers();
+			services.AddHostedService<JwtRefreshTokenCache>();
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web", Version = "v1" });
+
+				var securityScheme = new OpenApiSecurityScheme
+				{
+					Name = "JWT Authentication",
+					Description = "Enter JWT Bearer token **_only_**",
+					In = ParameterLocation.Header,
+					Type = SecuritySchemeType.Http,
+					Scheme = "bearer", // must be lower case
+					BearerFormat = "JWT",
+					Reference = new OpenApiReference
+					{
+						Id = JwtBearerDefaults.AuthenticationScheme,
+						Type = ReferenceType.SecurityScheme
+					}
+				};
+				c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement
+				{
+					{securityScheme, new string[] { }}
+				});
 			});
+
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,12 +143,16 @@ namespace Web
 			containerBuilder.RegisterAutoMapper(typeof(AuthorMapping).Assembly);
 
 			containerBuilder.RegisterAssemblyTypes(typeof(IService).Assembly)
-				.Where(t => (t.Name != null) && (t.Namespace?.EndsWith(nameof(Forsir.IctProject.BusinessLayer.Services)) == true))
+				.AssignableTo<IService>()
 				.AsImplementedInterfaces();
 
-			containerBuilder.RegisterAssemblyTypes(typeof(Repository<>).Assembly)
-				.Where(t => (t.Name != null) && (t.Namespace?.EndsWith(nameof(Forsir.IctProject.DataLayer.Repositories)) == true))
+			containerBuilder.RegisterAssemblyTypes(typeof(IGenericRepository<>).Assembly)
+				//.Where(t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IGenericRepository<>)))
+				.AssignableTo<IRepository>()
 				.AsImplementedInterfaces();
+
+			containerBuilder.RegisterType<JwtAuthManager>().As<IJwtAuthManager>();
+			containerBuilder.RegisterInstance(JwtTokenConfig).SingleInstance();
 		}
 	}
 }

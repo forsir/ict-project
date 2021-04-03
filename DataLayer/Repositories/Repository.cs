@@ -15,7 +15,7 @@ namespace Forsir.IctProject.DataLayer.Repositories
 	/// Base class for all common operations
 	/// </summary>
 	/// <typeparam name="T">Model type</typeparam>
-	public class Repository<T> : IRepository<T>
+	public class Repository<T> : IGenericRepository<T>
 			where T : class, IDataModel
 	{
 		protected readonly IctProjectContext context;
